@@ -909,8 +909,10 @@ static void ModelSetValueForProperty(__unsafe_unretained id model,
                                         if (!cls) cls = meta->_genericCls; // for xcode code coverage
                                     }
                                     NSObject *newOne = [cls new];
-                                    [newOne yy_modelSetWithDictionary:one];
-                                    if (newOne) [objectArr addObject:newOne];
+//                                    [newOne yy_modelSetWithDictionary:one];
+//                                    if (newOne) [objectArr addObject:newOne];
+                                    //modify by GrayLeo
+                                    if ([newOne yy_modelSetWithDictionary:one]) [objectArr addObject:newOne];
                                 }
                             }
                             ((void (*)(id, SEL, id))(void *) objc_msgSend)((id)model, meta->_setter, objectArr);
@@ -949,8 +951,10 @@ static void ModelSetValueForProperty(__unsafe_unretained id model,
                                         if (!cls) cls = meta->_genericCls; // for xcode code coverage
                                     }
                                     NSObject *newOne = [cls new];
-                                    [newOne yy_modelSetWithDictionary:(id)oneValue];
-                                    if (newOne) dic[oneKey] = newOne;
+//                                    [newOne yy_modelSetWithDictionary:(id)oneValue];
+//                                    if (newOne) dic[oneKey] = newOne;
+                                    //modify by GrayLeo
+                                    if ([newOne yy_modelSetWithDictionary:(id)oneValue]) dic[oneKey] = newOne;
                                 }
                             }];
                             ((void (*)(id, SEL, id))(void *) objc_msgSend)((id)model, meta->_setter, dic);
@@ -984,8 +988,10 @@ static void ModelSetValueForProperty(__unsafe_unretained id model,
                                     if (!cls) cls = meta->_genericCls; // for xcode code coverage
                                 }
                                 NSObject *newOne = [cls new];
-                                [newOne yy_modelSetWithDictionary:one];
-                                if (newOne) [set addObject:newOne];
+//                                [newOne yy_modelSetWithDictionary:one];
+//                                if (newOne) [set addObject:newOne];
+                                //modify by GrayLeo
+                                if ([newOne yy_modelSetWithDictionary:one]) [set addObject:newOne];
                             }
                         }
                         ((void (*)(id, SEL, id))(void *) objc_msgSend)((id)model, meta->_setter, set);
@@ -1018,14 +1024,24 @@ static void ModelSetValueForProperty(__unsafe_unretained id model,
                         one = ((id (*)(id, SEL))(void *) objc_msgSend)((id)model, meta->_getter);
                     }
                     if (one) {
-                        [one yy_modelSetWithDictionary:value];
+//                        [one yy_modelSetWithDictionary:value];
+                        //modify by GrayLeo
+                        if (![one yy_modelSetWithDictionary:value]) {
+                            ((void (*)(id, SEL, id))(void *) objc_msgSend)((id)model, meta->_setter, (id)nil);
+                        }
                     } else {
                         if (meta->_hasCustomClassFromDictionary) {
                             cls = [cls modelCustomClassForDictionary:value] ?: cls;
                         }
                         one = [cls new];
-                        [one yy_modelSetWithDictionary:value];
-                        ((void (*)(id, SEL, id))(void *) objc_msgSend)((id)model, meta->_setter, (id)one);
+//                        [one yy_modelSetWithDictionary:value];
+//                        ((void (*)(id, SEL, id))(void *) objc_msgSend)((id)model, meta->_setter, (id)one);
+                        //modify by GrayLeo
+                        if ([one yy_modelSetWithDictionary:value]) {
+                            ((void (*)(id, SEL, id))(void *) objc_msgSend)((id)model, meta->_setter, (id)one);
+                        } else {
+                            ((void (*)(id, SEL, id))(void *) objc_msgSend)((id)model, meta->_setter, (id)nil);
+                        }
                     }
                 }
             } break;
