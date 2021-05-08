@@ -1495,7 +1495,9 @@ static NSString *ModelDescription(NSObject *model) {
 - (BOOL)yy_modelSetWithDictionary:(NSDictionary *)dic {
     if (!dic || dic == (id)kCFNull) return NO;
     if (![dic isKindOfClass:[NSDictionary class]]) return NO;
-    
+    //MODIFY BY LIURAN
+    if ([dic count] < 1) return NO;
+
 
     _YYModelMeta *modelMeta = [_YYModelMeta metaWithClass:object_getClass(self)];
     if (modelMeta->_keyMappedCount == 0) return NO;
