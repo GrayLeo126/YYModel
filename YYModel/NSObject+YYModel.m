@@ -1473,7 +1473,9 @@ static NSString *ModelDescription(NSObject *model) {
 + (instancetype)yy_modelWithDictionary:(NSDictionary *)dictionary {
     if (!dictionary || dictionary == (id)kCFNull) return nil;
     if (![dictionary isKindOfClass:[NSDictionary class]]) return nil;
-    
+    //modify by LiuRan
+    if ([dictionary count] < 1) return nil;
+
     Class cls = [self class];
     _YYModelMeta *modelMeta = [_YYModelMeta metaWithClass:cls];
     if (modelMeta->_hasCustomClassFromDictionary) {
@@ -1808,7 +1810,8 @@ static NSString *ModelDescription(NSObject *model) {
 }
 
 + (NSArray *)yy_modelArrayWithClass:(Class)cls array:(NSArray *)arr {
-    if (!cls || !arr) return nil;
+    //modify by Liuran
+    if (!cls || !arr || [arr count] < 1) return nil;
     NSMutableArray *result = [NSMutableArray new];
     for (NSDictionary *dic in arr) {
         if (![dic isKindOfClass:[NSDictionary class]]) continue;
@@ -1842,7 +1845,8 @@ static NSString *ModelDescription(NSObject *model) {
 }
 
 + (NSDictionary *)yy_modelDictionaryWithClass:(Class)cls dictionary:(NSDictionary *)dic {
-    if (!cls || !dic) return nil;
+    //modify by Liuran
+    if (!cls || !dic || [dic count] < 1) return nil;
     NSMutableDictionary *result = [NSMutableDictionary new];
     for (NSString *key in dic.allKeys) {
         if (![key isKindOfClass:[NSString class]]) continue;
